@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Skill Dashboard</title>
+    <style>
+        :root {
+            --primary-dark: #1e293b;
+            --accent-blue: #3b82f6;
+            --highlight-cyan: #0ea5e9; 
+            --accent-gold: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-emerald: #10b981;
+            --card-bg: #ffffff;
+            --bg-shade: #f1f5f9;
+            --text-main: #334155;
+            --border-color: #e2e8f0;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #f8fafc; 
+            padding: 20px; 
+            color: var(--text-main); 
+            margin: 0;
+        }
+
+        #main_kind {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--highlight-cyan) 0%, var(--accent-blue) 100%);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-size: 1rem; 
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); 
+        }
+
+        #namee {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            border-left: 6px solid var(--accent-blue);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            word-wrap: break-word;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 15px 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            text-align: center;
+            border-bottom: 4px solid transparent;
+            min-width: 0;
+            overflow: hidden;
+        }
+        
+        #level-card { border-color: var(--accent-blue); }
+        #initial-card { border-color: var(--accent-purple); }
+        #point-card { border-color: var(--accent-gold); }
+        #goal-card { border-color: var(--accent-pink); }
+
+        .stat-label {
+            display: block;
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .section-box {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .type-header {
+            color: #94a3b8;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            display: block;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--bg-shade);
+            margin-bottom: 15px;
+        }
+
+        .data-item {
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: var(--bg-shade);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        /* --- STYLED SELECT BOX --- */
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .fiel {
+            appearance: none; /* Remove default arrow */
+            background-color: var(--bg-shade);
+            border: 1px solid var(--border-color);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            padding-right: 35px; /* Space for custom arrow */
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            /* Custom dropdown arrow */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        .fiel:hover {
+            border-color: var(--accent-blue);
+            background-color: #eef2ff;
+        }
+
+        .fiel:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+        /* -------------------------- */
+
+        .potential-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .tier-card {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .tier-title {
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: var(--accent-emerald);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .milestone-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            padding: 4px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        #aq {
+           font-family:sans-serif;
+
+        }
+
+                /* Container override: force the grid to display as a full-width block stack */
+        #potential_content {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 16px;
+            width: 100% !important;
+            /* Apply clean sans-serif universally */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        }
+
+        /* Main inner card container */
+        #potential_content > div {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+            width: 100% !important;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Styled text header for 'At Hour: 1' (${fd.value}) */
+        #potential_content > div > text,
+        #potential_content > div {
+            font-size: 1.25rem !important; /* Made it bigger */
+            font-weight: 900 !important;    /* Made it more bold */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #000000 !important;     /* Pitch black to make it pop */
+        }
+
+        /* Inner wrapper holding the rows */
+        #potential_content > div > div {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+            width: 100%;
+        }
+
+        /* Individual list rows */
+        #potential_content > div > div > div {
+            background: var(--bg-shade);
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text-main);
+            border-left: 4px solid var(--accent-blue);
+            
+            /* Layout preservation across all viewports */
+            display: block !important;
+            white-space: nowrap;
+            overflow-x: auto;
+            box-sizing: border-box;
+            width: 100%;
+            
+            /* Smooth interactive transition */
+            transition: all 0.2s ease;
+        }
+
+        /* Targets spans and strong elements inside the text rows to be dark and ultra-bold */
+        #potential_content div span,
+        #potential_content div strong {
+            font-weight: 900 !important;
+            color: #000000 !important;
+        }
+
+        /* Subtle hover pop effect on lines */
+        #potential_content > div > div > div:hover {
+            background: #eef2ff;
+            border-left-color: var(--highlight-cyan);
+            transform: translateX(3px);
+        }
+
+        /* Custom scrollbar track for long decimals on small viewports */
+        #potential_content > div > div > div::-webkit-scrollbar {
+            height: 3px;
+        }
+        #potential_content > div > div > div::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        /* Smooth enter animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main_kind">SKILL</div>
+    <h1 id="namee">Loading....</h1>
+
+    <div class="stats-container">
+        <div class="stat-card" id="level-card">
+            <span class="stat-label">Mastery</span>
+
+            <div class="stat-value" id="level"> 
+                <span id="aq">you are currently</span> 
+            0</div>
+        </div>
+        <div class="stat-card" id="initial-card">
+            <span class="stat-label">Initial</span>
+            <div class="stat-value" id="point_initial">0</div>
+        </div>
+        <div class="stat-card" id="point-card">
+            <span class="stat-label">Points</span>
+            <div class="stat-value" id="point">0</div>
+        </div>
+        <div class="stat-card" id="goal-card">
+            <span class="stat-label">Progress (60)</span>
+            <div class="stat-value" id="goal_percent">0%</div>
+            <div style="height:4px; background:var(--bg-shade); width:100%; border-radius:10px; margin-top:8px; overflow:hidden;">
+                <div id="progress-fill" style="height:100%; background:var(--accent-pink); width:0%; transition:0.5s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Affects Section -->
+    <div id="affs_section" class="section-box">
+        <span class="type-header">Skill Influence</span>
+        <div id="affs_content"></div>
+    </div>
+
+    <!-- Potential Section -->
+    <div id="potential_section" class="section-box">
+        <span class="type-header">Evolution Potential</span>
+        
+        <div class="filter-container">
+
+
+            <div class="filter-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <label class="filter-label" style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 900; letter-spacing: 0.5px;">
+                    Filter Interval:
+                </label>
+                <input 
+                    class="desi" 
+                    type="number" 
+                    placeholder="Enter PotentialTime" 
+                    id="fild" 
+                    style="background-color: var(--bg-shade); border: 1px solid var(--border-color); color: var(--primary-dark); padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; outline: none;"
+                >
+                <button 
+                    id="frog1" 
+                    style="background: linear-gradient(135deg, var(--highlight-cyan) 0%, var(--accent-blue) 100%); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);"
+                >
+                    +
+                </button>
+            </div>
+            
+        </div>
+
+        <div id="potential_content" class="potential-grid"></div>
+    </div>
+
+    <script src="scripting.js"></script>
+    <script>
+        let d = datafrom_localstorage();
+        const channel = new BroadcastChannel('skill');
+        let but = document.getElementById('frog1');
+        let currentSkill = null;
+
+        function renderPotential(skillName) {            
+            let maingrid = document.getElementById('potential_content');
+            let fd = document.getElementById('fild');
+            let sm = future_potential(skillName,fd.value);
+
+
+            maingrid.insertAdjacentHTML('beforeend', `
+                <div>
+                    <div>At Hour: ${fd.value}</div>
+                    <div>
+                        <div>At <span>${sm[0][0]}x</span> focus, you scale to <span>${sm[0][2]}</span> level at <span>${sm[0][1]} point</span> </div>
+                        <div>At <span>${sm[1][0]}x</span> focus, you scale to <span>${sm[1][2]}</span> level at <span>${sm[1][1]} point</span> </div>
+                        <div>At <span>${sm[2][0]}x</span> focus, you scale to <span>${sm[2][2]}</span> level at <span>${sm[2][1]} point</span> </div>
+                        <div>At <span>${sm[3][0]}x</span> focus, you scale to <span>${sm[3][2]}</span> level at <span>${sm[3][1]} point</span> </div>
+                        <div>At <span>${sm[4][0]}x</span> focus, you scale to <span>${sm[4][2]}</span> level at <span>${sm[4][1]} point</span> </div>
+                        <div>At <span>${sm[5][0]}x</span> focus, you scale to <span>${sm[5][2]}</span> level at <span>${sm[5][1]} point</span> </div>
+                    </div>
+                </div>
+            `);
+
+        }
+
+        
+
+
+
+        channel.onmessage = (event) => {
+            const nam = event.data.value;
+            currentSkill = nam;
+            d = datafrom_localstorage();
+            const skillData = d[nam];
+            if(!skillData) return;
+
+            document.getElementById('namee').innerText = nam;
+            document.getElementById('main_kind').innerText = skillData.kind || "SKILL";
+            document.getElementById('level').innerText = skillData.mastery_level || "N/A";
+            document.getElementById('point_initial').innerText = skillData.point_initial || 0;
+            document.getElementById('point').innerText = parseFloat(skillData.point).toFixed(1);
+
+            let percentage = (skillData.point / 60) * 100;
+            document.getElementById('goal_percent').innerText = Math.floor(percentage) + "%";
+            document.getElementById('progress-fill').style.width = (percentage > 100 ? 100 : percentage) + "%";
+
+            const affsContent = document.getElementById('affs_content');
+            affsContent.innerHTML = "";
+            ['component', 'multipliers'].forEach(type => {
+                if (skillData.affects && skillData.affects[type]) {
+                    Object.entries(skillData.affects[type]).forEach(([key, val]) => {
+                        const div = document.createElement('div');
+                        div.className = 'data-item';
+                        div.innerHTML = `<span>${type}: <strong>${key}</strong></span> <span>+${val}%</span>`;
+                        affsContent.appendChild(div);
+                    });
+                }
+            });
+
+            but.addEventListener('click', () => {
+            
+                renderPotential(nam);
+                
+            });
+        };
+    </script>
+</body>
+</html>

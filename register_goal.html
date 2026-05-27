@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>growth holistic program</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #E6EFEC;
+        }
+
+
+        .within {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toper {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid black;
+        }
+
+        .top_bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 35px;
+            margin: 0 50px;
+            height: 110px;
+        }
+
+        .dis {
+            text-decoration: none;
+            color: black;
+            font-weight: 100;
+            font-family: sans-serif;
+            font-size: 26px;
+            margin: 0 50px;
+            cursor: pointer;
+        }
+
+        .tim {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pos {
+            position: relative;
+            right: 36px;
+        }
+
+        .b {
+            margin: 10px 0px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .buto {
+            margin: 5px;
+            height: 35px;
+            margin: 10px 0px;
+            border-radius: 8px;
+        }
+
+        .fiel {
+            border-radius: 8px;
+            height: 35px;
+            border: 1px solid;
+        }
+
+        .tsa {
+            width: 100px;
+            border-radius: 8px;
+            height: 20px;
+            border: 1px solid;
+            margin-right: 5px;
+        }
+        .tsaa {
+            width: 100px;
+            border-radius: 8px;
+            height: 20px;
+            border: 1px solid;
+            margin-right: 5px;
+        }
+        .within {
+            border: 1px solid white;
+            width: 550px;
+            background-color: white;
+            margin: 30px 0px;
+        }
+
+        .wit {
+            display: flex;
+            justify-content: center;
+        }
+        .kacha{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-bottom:5px;
+        }
+        #component_contain {
+            display: flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items:center;
+        }
+        .tsa::placeholder {
+            font-size: 8px;
+            font-family: sans-serif;
+            font-weight: 300;
+            color: #2D2F41;
+        }
+        .fi {
+            width: 60px;
+            border-radius: 8px;
+            height: 20px;
+            border: 1px solid;
+            margin-right: 5px;
+        }
+
+        #mm_contain {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        /* Base Card Style */
+        .linker {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 6px solid #cbd5e1;
+        }
+
+        .linker:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        /* Inner Layout */
+        .link-info { display: flex; flex-direction: column; gap: 4px; }
+        .link-tag { 
+            font-size: 0.65rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        .link-name {
+            font-family: sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .link-stat {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-num { font-size: 1.3rem; font-weight: 800; color: #1e293b; }
+        .stat-desc { font-size: 0.7rem; color: #64748b; text-transform: uppercase; }
+
+        /* Color Themes */
+        .skill-card { border-left-color: #3b82f6; }
+        .skill-card .link-tag { background: #dbeafe; color: #1e40af; }
+
+        .habit-card { border-left-color: #10b981; }
+        .habit-card .link-tag { background: #d1fae5; color: #065f46; }
+
+        .goal-card { border-left-color: #f59e0b; }
+        .goal-card .link-tag { background: #fef3c7; color: #92400e; }
+
+
+    </style>
+
+</head>
+<body>
+    <div class="toper">
+        <div class="top_bar">
+            <a class="dis" href="inputer.html">Grow skill</a>
+            <a class="dis" href="index.html">Register skill</a>
+            <a class="dis" href="register_habit.html">Register habit</a>
+            <a class="dis" href="inputer_habit.html">Grow habit</a>
+            <a class="dis" href="register_goal.html">Register goal</a>
+        </div>
+    </div>
+
+
+    <div class="wit">
+        <div class="within">
+            <h1 style="font-family: sans-serif;">Register your Goal</h1>
+            <label>
+                <input type="text" placeholder="Goal you want to achieve" class="fiel" id="name">
+
+                <select id="items" class="fi">
+                    <option value="create">create</option>
+                    <option value="remove">remove</option>
+                </select>
+            </label>
+
+            <div class="tim">
+                <button id="comp_button" class="buto">Goal requirment</button>
+                <div id='component_contain'></div>
+
+            </div>
+
+            <button class="b" id="sub">Submit</button>
+        </div>
+    </div>
+
+    <script src='scripting.js'></script>
+
+    <div id="mm_contain"></div>
+
+
+
+    <script>
+        let but_comp = document.getElementById('comp_button');
+        let container = document.getElementById('component_contain');
+
+
+        function some(cont, inbut) {
+            cont.insertAdjacentHTML('beforeend', `
+
+                    <div class="kacha">
+                        <input type="text" placeholder="enter your goal skill" class="tsa">
+                        <input type="number" placeholder="which amount or level" class="tsaa">
+                        <select id="items" class="fi">
+                          <option value="create">create</option>
+                          <option value="remove">remove</option>
+                        </select>
+
+                        <button class=${inbut}>-</button>
+                    </div>
+            `);
+
+            console.log(document.getElementsByClassName(inbut))
+
+            let qw = document.getElementsByClassName(inbut);
+            let pl = (qw[qw.length - 1]);
+
+            pl.addEventListener('click', (k) => {
+                apps(k)
+            })
+        }
+
+        but_comp.addEventListener('click', (z) => {
+            some(container, 'com')
+        });
+
+        function apps(v) {
+            let button = v.target.parentElement;
+            console.log(button, 'l')
+            button.remove()
+
+        }
+
+        let buut = document.getElementById('sub');
+
+        buut.addEventListener('click',mojer);
+
+        function mojer(){
+            let n = document.getElementById('name');
+            let itemms = document.getElementById('items');
+            
+            let s_name = document.getElementsByClassName('tsa');
+            let n_name = document.getElementsByClassName('tsaa');
+
+
+            if (itemms.value == 'remove'){
+
+                const proceed = confirm("Are you sure you want to delete this skill?");
+
+                if (proceed) {
+                    // Run your delete logic here
+                    removee_(n.value)
+                    update_goals();
+                    goal_checker();
+                    show_result()
+                    console.log("Item deleted.");
+                } else {
+                    // Stop the process
+                    console.log("Action cancelled.");
+                }
+                
+            }
+
+            if (itemms.value == 'create'){
+
+                for (let k=0;k<s_name.length;k++){
+
+                    console.log()
+                    let qas = s_name[0].parentElement.children[2].value
+                    if (qas == 'create'){
+                        let ko = goal_adder(n.value,[s_name[k].value, parseInt(n_name[k].value,10)])
+                        update_goals();
+                        goal_checker();
+                        show_result()
+
+                        if (ko === 0){
+                            alert('dublicate')
+                        }
+                    }
+                    if (qas == 'remove'){
+                        const proceed = confirm("Are you sure you want to delete this skill?");
+
+                        if (proceed) {
+                            // Run your delete logic here
+                            removee_(n.value,[s_name[k].value,parseInt(n_name[k].value,10)])
+
+                            update_goals();
+                            goal_checker();
+                            show_result()
+                            console.log("Item deleted.");
+                        } else {
+                            // Stop the process
+                            console.log("Action cancelled.");
+                        }
+                    }
+                }
+            }
+        }
+
+        function show_result() {
+            let shower = document.getElementById('mm_contain');
+            shower.innerHTML = "";
+            let current_data = datafrom_localstorage();
+            let organized = []
+            for (let d in current_data){
+                organized.push(d)
+            }
+            if (!current_data) return;
+
+            for (let data of organized.sort()) {
+                let item = current_data[data];
+
+                // 1. SKILL CARD
+                if ('current_point_gained' in item) {
+                    shower.insertAdjacentHTML('beforeend', `
+                        <a href="dynamic.html" target="_blank" class="linker skill-card" id='${data}' data-category='skill'>
+                            <div class="link-info">
+                                <span class="link-tag">Skill</span>
+                                <span class="link-name">${data}</span>
+                            </div>
+                            <div class="link-stat">
+                                <span class="stat-num">${item.point || 0}</span>
+                                <span class="stat-desc">Points</span>
+                            </div>
+                        </a>
+                    `);
+                } 
+                // 2. HABIT CARD
+                else if ('timestampss' in item) {
+                    shower.insertAdjacentHTML('beforeend', `
+                        <a href="habiter.html" target="_blank" class="linker habit-card" id='${data}' data-category='habit'>
+                            <div class="link-info">
+                                <span class="link-tag">Habit</span>
+                                <span class="link-name">${data}</span>
+                            </div>
+                            <div class="link-stat">
+                                <span class="stat-num">${item.total || 0}</span>
+                                <span class="stat-desc">Total Reps</span>
+                            </div>
+                        </a>
+                    `);
+                } 
+                // 3. GOAL CARD
+                else if ('goal_requirment' in item) {
+                    let percent = item.current_progress ? item.current_progress.percentage : 0;
+                    shower.insertAdjacentHTML('beforeend', `
+                        <a href="goaler.html" target="_blank" class="linker goal-card" id='${data}' data-category='goal'>
+                            <div class="link-info">
+                                <span class="link-tag">Goal</span>
+                                <span class="link-name">${data}</span>
+                            </div>
+                            <div class="link-stat">
+                                <span class="stat-num">${percent}%</span>
+                                <span class="stat-desc">Complete</span>
+                            </div>
+                        </a>
+                    `);
+                }
+            }
+
+            // IMPORTANT: Re-attach the listeners after creating new cards
+
+            let allers = document.getElementsByClassName('linker');
+
+            for (let elem of allers){
+                console.log(elem.addEventListener('click',work))
+            }
+            
+        }
+        show_result()
+
+
+
+        
+
+        function work(event) {
+            // 2. Capture the data in variables immediately
+            const category = event.target.dataset.category;
+            const id = event.target.id;
+
+            console.log(id, category);
+
+            setTimeout(() => {
+                // 3. Use the captured variables here
+                sendMessage(category, id);
+            }, 500);
+        }
+
+        function sendMessage(m,n) {
+
+            const channel = new BroadcastChannel(m);
+            channel.postMessage({type:m, value: n});
+        }
+
+
+    </script>
+
+    
+   </body>
+</html>
