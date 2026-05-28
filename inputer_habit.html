@@ -195,6 +195,8 @@
     </div>
 
     <div id="mm_contain"></div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src='scripting.js'></script>
 
     <script>
@@ -203,7 +205,7 @@
         butt.addEventListener('click',mojo);
 
 
-        function mojo(){
+        async function mojo(){
             let check = document.getElementById('c_name');
             let skillname = document.getElementById('h_name');
 
@@ -211,7 +213,11 @@
                 c_update(skillname.value,1);
                 update_goals()
                 goal_checker()
-                show_result()
+
+                await writeData();  // ✅ If this is also async
+                let retrieved_data = await GetData();  // ✅ Now await works
+                saveto_localstorage(retrieved_data);
+                show_result();
             }
         }
 

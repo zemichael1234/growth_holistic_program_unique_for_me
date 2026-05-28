@@ -62,6 +62,7 @@ function removee(skill_name, element = "") {
 function input(skill_name,{effort=1,time=60,reps=0})
 {
     let data = JSON.parse(localStorage.getItem(skill_name));
+
     let initial_point = data['point_initial'];
     let rate_time = time/60
     
@@ -104,36 +105,6 @@ function saveto_localstorage(modified_data){
     
 }
 
-
-function calculate_potential(skill_name){
-    let sd = {}
-    let v_mock = datafrom_localstorage()
-    // 1 - 6
-    for (let n=1;n<=6;n++){
-        let nm = []
-        let lists_toremove=[]
-        for (let i=1;i<=60;i++){
-            input(skill_name,{time:60*n});
-            let f_list = BSA(skill_name);
-            lists_toremove.push(f_list);
-            mock = datafrom_localstorage()
-            let num = Math.round(mock[skill_name]['point'])
-
-            nm.push([mock[skill_name]['point'],i,n])
-            
-        }
-
-        sd[n] = nm
-        let flatend = lists_toremove.flat(Infinity);
-
-        for (let item of flatend){
-            rr(item);
-        }
-    }
-
-    v_mock[skill_name]['potential'] = sd
-    saveto_localstorage(v_mock);
-}
 
 
 
@@ -450,4 +421,74 @@ function future_potential(skillname, t){
     }
     return ov
 
+}
+
+const supabaseUrl = 'https://mrtjnfdnesxcspxrvumt.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ydGpuZmRuZXN4Y3NweHJ2dW10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MzE0NzQsImV4cCI6MjA5NTMwNzQ3NH0.eNugYMocBHbuYhhvi7pU-7HSfyNTxuuy22EHSmLfnRw';
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function GetData() {
+    localStorage.clear()
+    const { data, error } = await supabaseClient
+        .from('holistic_db')
+        .select('all_data')                        // 1. Target only the JSON/text column
+        .order('created_at', { ascending: false }) // 2. Sort by newest first (replace 'created_at' with your timestamp/ID column)
+        .limit(1);
+
+    if (error) {
+        console.error('Error found:', error.message);
+        return;
+    }
+
+
+    const lastRowData = data?.[0]?.all_data || null;
+    console.log(lastRowData)
+
+    if (data.length === 0) {
+        console.log('Connected! But table "todo" returned 0 rows. Fix this in your Supabase dashboard.');
+    } else {
+        console.log('Data found:', lastRowData);
+        return lastRowData
+    }
+
+
+
+}
+
+async function writeData() {
+    // .insert() accepts an object (or an array of objects for multiple rows)
+    // Replace 'task' and 'is_completed' with your actual column names
+    const { data, error } = await supabaseClient
+        .from('holistic_db')
+        .insert([
+            { all_data: datafrom_localstorage()}
+        ])
+        .select(); // .select() forces Supabase to return the newly created row
+
+    if (error) {
+        console.error('Error inserting data:', error.message);
+        return;
+    }
+    console.log('Data successfully written:', data);
+}
+async function firstimer(dat) {
+    // .insert() accepts an object (or an array of objects for multiple rows)
+    // Replace 'task' and 'is_completed' with your actual column names
+    let daty = await GetData()
+    saveto_localstorage(daty)
+
+    const { data, error } = await supabaseClient
+        .from('user_data')
+        .insert([
+            { DT: dat}
+        ])
+        .select(); // .select() forces Supabase to return the newly created row
+
+    if (error) {
+        console.error('Error inserting data:', error.message);
+        return;
+    }
+
+    console.log('Data successfully written:', data);
 }

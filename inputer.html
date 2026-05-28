@@ -203,12 +203,10 @@
 
     <div id="mm_contain"></div>
 
-
-
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 
     <script src='scripting.js'></script>
-
     <script>
         let s_name = document.getElementById('enter_skill');
         let rep = document.getElementById('reps');
@@ -220,7 +218,7 @@
         s_button.addEventListener('click',grow);
 
 
-        function grow(){
+        async function grow(){
             //console.log(s_name.value, rep.value,tim_.value,effo.value)
 
             let effort = Number(effo.value)
@@ -237,13 +235,26 @@
             if ((effort) === 0){
                 effort = 1
             }
-            console.log(s_name.value,{effort,time,reps})
-            input(s_name.value,{effort,time,reps})
-            BSA(s_name.value)
-            update_goals()
-            goal_checker()
-            rewarding_state(s_name.value);
-            show_result()
+
+            async function handleSkillUpdate() {
+                input(s_name.value,{effort,time,reps})
+                BSA(s_name.value)
+                update_goals()
+                goal_checker()
+                rewarding_state(s_name.value);
+
+                await writeData();  // ✅ If this is also async
+                let retrieved_data = await GetData();  // ✅ Now await works
+                saveto_localstorage(retrieved_data);
+                show_result();
+
+                
+            }
+
+            // Then call it:
+
+            await handleSkillUpdate()
+
         }
 
         function show_result() {
