@@ -499,9 +499,9 @@ async function firstimer(dat) {
     saveto_localstorage(daty)
 
     const { data, error } = await supabaseClient
-        .from('holistic_db')
+        .from('user_data')
         .insert([
-            { user_data: dat}
+            { DT: dat}
         ])
         .select(); // .select() forces Supabase to return the newly created row
 
