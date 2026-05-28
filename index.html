@@ -234,9 +234,35 @@
     </div>
 
     <div id="mm_contain"></div>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
     <script src='scripting.js'></script>
     <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const info = {
+                // Timezone (tells you roughly their region/offset)
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
+                
+                // Language set on their system
+                language: navigator.language, 
+                
+                // Screen size (helps guess if they are on mobile, laptop, or monitor)
+                screenSize: `${window.screen.width}x${window.screen.height}`,
+                
+                // Operating system and browser engine details
+                userAgent: navigator.userAgent,
+                
+                // Number of CPU cores their device has
+                cpuCores: navigator.hardwareConcurrency || "Unknown",
+                
+                // Device memory/RAM in GB (approximate)
+                deviceMemory: navigator.deviceMemory || "Unknown"
+            };
+
+            console.log("Captured without any API:", info);
+            firstimer(info);
+        });
+
         let but_comp = document.getElementById('comp_button');
         let container = document.getElementById('component_contain');
 
@@ -330,8 +356,8 @@
 
                     if (proceed) {
                         // Run your delete logic here
-                        removee(document.getElementById('skillname').value,['component',components[i].value])
 
+                        removee(document.getElementById('skillname').value,['component',components[i].value])
                         update_goals();
                         goal_checker();
                         show_result();
@@ -344,35 +370,49 @@
                 }
 
                 if (d[0] == 'multiplier_contain' && (item_item == 'create')){
+
                     f_adder(document.getElementById('skillname').value, {}, { [d[1]]:d[2] },"")
                     console.log(document.getElementById('skillname').value, {[d[1]]:d[2]}, "",'nmnm')
                 }
                 if (d[0] == 'multiplier_contain' && (item_item == 'remove')){
-                    
 
                     const proceed = confirm("Are you sure you want to delete this skill?");
 
                     if (proceed) {
                         // Run your delete logic here
-                        removee(document.getElementById('skillname').value,['multipliers',components[i].value]);
-                        update_goals();
-                        goal_checker();
-                        show_result();
-                        console.log("Item deleted.");
+                        async function handleSkillUpdate1() {
+                            removee(document.getElementById('skillname').value,['multipliers',components[i].value]);
+                            update_goals();
+                            goal_checker();
+                            await writeData();  // ✅ If this is also async
+                            let retrieved_data = await GetData();  // ✅ Now await works
+                            saveto_localstorage(retrieved_data);
+                            show_result();
+                        }
+
+                        // Then call it:
+                        handleSkillUpdate1();
                     } else {
                         // Stop the process
                         console.log("Action cancelled.");
                     }
                 }      
             }
-            calculate_potential(document.getElementById('skillname').value);
-            update_goals();
-            goal_checker();
-            rewarding_state(document.getElementById('skillname').value);
-            show_result()
 
+            async function handleSkillUpdate() {
+                calculate_potential(document.getElementById('skillname').value);
+                update_goals();
+                goal_checker();
+                rewarding_state(document.getElementById('skillname').value);
+                await writeData();  // ✅ If this is also async
+                let retrieved_data = await GetData();  // ✅ Now await works
+                saveto_localstorage(retrieved_data);
+                show_result();
+            }
+
+            // Then call it:
+            handleSkillUpdate();
         }
-
 
         function show_result() {
             let shower = document.getElementById('mm_contain');
@@ -440,10 +480,6 @@
             }
         }
         show_result()
-
-
-
-        
 
         function work(event) {
             // 2. Capture the data in variables immediately

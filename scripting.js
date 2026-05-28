@@ -451,3 +451,64 @@ function future_potential(skillname, t){
     return ov
 
 }
+
+const supabaseUrl = 'https://mrtjnfdnesxcspxrvumt.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ydGpuZmRuZXN4Y3NweHJ2dW10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MzE0NzQsImV4cCI6MjA5NTMwNzQ3NH0.eNugYMocBHbuYhhvi7pU-7HSfyNTxuuy22EHSmLfnRw';
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function GetData() {
+    const { data, error } = await supabaseClient
+        .from('holistic_db')
+        .select('*'); // Explicitly select all columns
+
+    if (error) {
+        console.error('Error found:', error.message);
+        return;
+    }
+
+    if (data.length === 0) {
+        console.log('Connected! But table "todo" returned 0 rows. Fix this in your Supabase dashboard.');
+    } else {
+        console.log('Data found:', data, data[data.length-1]);
+        return data[data.length-1]['all_data']
+    }
+}
+
+async function writeData() {
+    // .insert() accepts an object (or an array of objects for multiple rows)
+    // Replace 'task' and 'is_completed' with your actual column names
+    const { data, error } = await supabaseClient
+        .from('holistic_db')
+        .insert([
+            { all_data: datafrom_localstorage()}
+        ])
+        .select(); // .select() forces Supabase to return the newly created row
+
+    if (error) {
+        console.error('Error inserting data:', error.message);
+        return;
+    }
+
+    console.log('Data successfully written:', data);
+}
+async function firstimer(dat) {
+    // .insert() accepts an object (or an array of objects for multiple rows)
+    // Replace 'task' and 'is_completed' with your actual column names
+    let daty = await GetData()
+    saveto_localstorage(daty)
+
+    const { data, error } = await supabaseClient
+        .from('holistic_db')
+        .insert([
+            { user_data: dat}
+        ])
+        .select(); // .select() forces Supabase to return the newly created row
+
+    if (error) {
+        console.error('Error inserting data:', error.message);
+        return;
+    }
+
+    console.log('Data successfully written:', data);
+}
