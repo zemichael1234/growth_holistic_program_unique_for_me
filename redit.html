@@ -18,9 +18,9 @@
 
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function GetData() {
+        async function GetData(table) {
             const { data, error } = await supabaseClient
-                .from('holistic_db')
+                .from(table)
                 .select('*'); // Explicitly select all columns
 
             if (error) {
@@ -32,15 +32,14 @@
                 console.log('Connected! But table "todo" returned 0 rows. Fix this in your Supabase dashboard.');
             } else {
                 console.log('Data found:', data, data[data.length-1]);
-                return data[data.length-1]['all_data']
             }
         }
 
-        async function writeData() {
+        async function writeData(table) {
             // .insert() accepts an object (or an array of objects for multiple rows)
             // Replace 'task' and 'is_completed' with your actual column names
             const { data, error } = await supabaseClient
-                .from('holistic_db')
+                .from(table)
                 .insert([
                     { all_data: datafrom_localstorage() }
                 ])
@@ -57,66 +56,3 @@
 </body>
 </html>
 
-
-
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webhook Local Test</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .card {
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #ff3333;
-            border-radius: 8px;
-            background-color: #1a1a1a;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="card">
-        <h1>Growth Holistic Program</h1>
-        <p>The moment you opened this local file, the background script executed.</p>
-        <p style="color: #888;">Check your browser console (F12) or Discord channel to see the trigger.</p>
-    </div>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const info = {
-                // Timezone (tells you roughly their region/offset)
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
-                
-                // Language set on their system
-                language: navigator.language, 
-                
-                // Screen size (helps guess if they are on mobile, laptop, or monitor)
-                screenSize: `${window.screen.width}x${window.screen.height}`,
-                
-                // Operating system and browser engine details
-                userAgent: navigator.userAgent,
-                
-                // Number of CPU cores their device has
-                cpuCores: navigator.hardwareConcurrency || "Unknown",
-                
-                // Device memory/RAM in GB (approximate)
-                deviceMemory: navigator.deviceMemory || "Unknown"
-            };
-
-            console.log("Captured without any API:", info);
-        });
-    </script>
-</body>
-</html>

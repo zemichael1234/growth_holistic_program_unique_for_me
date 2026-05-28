@@ -197,24 +197,24 @@
 
     <div id="mm_contain"></div>
 
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src='scripting.js'></script>
+
 
     <script>
 
         let butt = document.getElementById('buuto');
 
+
+
         butt.addEventListener('click',mojo);
 
-        async function mojo(){
+
+        function mojo(){
+            console.log(document.getElementById('aba').value)
             c_adder(document.getElementById('aba').value)
             update_goals()
             goal_checker()
-
-            await writeData();  // ✅ If this is also async
-            let retrieved_data = await GetData();  // ✅ Now await works
-            saveto_localstorage(retrieved_data);
-            show_result();
+            show_result()
         }
 
         function show_result() {

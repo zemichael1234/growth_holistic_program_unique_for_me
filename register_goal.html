@@ -231,14 +231,12 @@
         </div>
     </div>
 
-    
+    <script src='scripting.js'></script>
 
     <div id="mm_contain"></div>
 
 
 
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src='scripting.js'></script>
     <script>
         let but_comp = document.getElementById('comp_button');
         let container = document.getElementById('component_contain');
@@ -298,16 +296,11 @@
 
                 if (proceed) {
                     // Run your delete logic here
-                    async function handleSkillUpdate() {
-                        removee_(n.value)
-                        update_goals();
-                        goal_checker();
-                        await writeData();  // ✅ If this is also async
-                        let retrieved_data = await GetData();  // ✅ Now await works
-                        saveto_localstorage(retrieved_data);
-                        show_result();
-                    }
-                    handleSkillUpdate()
+                    removee_(n.value)
+                    update_goals();
+                    goal_checker();
+                    show_result()
+                    console.log("Item deleted.");
                 } else {
                     // Stop the process
                     console.log("Action cancelled.");
@@ -322,39 +315,26 @@
                     console.log()
                     let qas = s_name[0].parentElement.children[2].value
                     if (qas == 'create'){
+                        let ko = goal_adder(n.value,[s_name[k].value, parseInt(n_name[k].value,10)])
+                        update_goals();
+                        goal_checker();
+                        show_result()
 
-                        async function handleSkillUpdate() {
-                            let ko = goal_adder(n.value,[s_name[k].value, parseInt(n_name[k].value,10)])
-                            update_goals();
-                            goal_checker();
-
-                            await writeData();  // ✅ If this is also async
-                            let retrieved_data = await GetData();  // ✅ Now await works
-                            saveto_localstorage(retrieved_data);
-                            show_result();
-
-                            if (ko === 0){
-                                alert('dublicate')
-                            }
+                        if (ko === 0){
+                            alert('dublicate')
                         }
-                        handleSkillUpdate()                        
                     }
                     if (qas == 'remove'){
                         const proceed = confirm("Are you sure you want to delete this skill?");
 
                         if (proceed) {
                             // Run your delete logic here
-                            async function handleSkillUpdate() {
-                                removee_(n.value,[s_name[k].value,parseInt(n_name[k].value,10)])
-                                update_goals();
-                                goal_checker();
+                            removee_(n.value,[s_name[k].value,parseInt(n_name[k].value,10)])
 
-                                await writeData();  // ✅ If this is also async
-                                let retrieved_data = await GetData();  // ✅ Now await works
-                                saveto_localstorage(retrieved_data);
-                                show_result();
-                            }
-                            handleSkillUpdate();                            
+                            update_goals();
+                            goal_checker();
+                            show_result()
+                            console.log("Item deleted.");
                         } else {
                             // Stop the process
                             console.log("Action cancelled.");
