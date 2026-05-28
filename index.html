@@ -415,6 +415,7 @@
             if (!current_data) return;
             for (let data of organized.sort()) {
                 let item = current_data[data];
+                console.log(item,'l')
                 // 1. SKILL CARD
                 if ('current_point_gained' in item) {
                     shower.insertAdjacentHTML('beforeend', `

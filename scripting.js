@@ -428,43 +428,105 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
+// async function GetData() {
+//     localStorage.clear()
+//     const { data, error } = await supabaseClient.from('holistic_db').select('all_data').order('id',{ ascending: false }).limit(1).maybeSingle();
+        
+
+//     if (error) {
+//         console.error('Error found:', error.message);
+//         return;
+//     }
+
+
+
+//     if (data.length === 0) {
+//         console.log('Connected! But table "todo" returned 0 rows. Fix this in your Supabase dashboard.');
+//     } else {
+//         console.log('Data found:', data['all_data']);
+//         return data
+//     }
+
+
+
+// }
+
+// async function writeData() {
+//     // .insert() accepts an object (or an array of objects for multiple rows)
+//     // Replace 'task' and 'is_completed' with your actual column names
+//     const { data, error } = await supabaseClient
+//         .from('holistic_db')
+//         .insert([
+//             { all_data: datafrom_localstorage()}
+//         ])// .select() forces Supabase to return the newly created row
+
+//     if (error) {
+//         console.error('Error inserting data:', error.message);
+//         return;
+//     }
+//     console.log('Data successfully written:', data);
+// }
+// async function firstimer(dat) {
+//     // .insert() accepts an object (or an array of objects for multiple rows)
+//     // Replace 'task' and 'is_completed' with your actual column names
+//     let daty = await GetData()
+//     saveto_localstorage(daty)
+
+//     const { data, error } = await supabaseClient
+//         .from('user_data')
+//         .insert([
+//             { DT: dat}
+//         ])
+//         .select(); // .select() forces Supabase to return the newly created row
+
+//     if (error) {
+//         console.error('Error inserting data:', error.message);
+//         return;
+//     }
+
+//     console.log('userinfo successfully written:', data);
+// }
+
+
 async function GetData() {
-    localStorage.clear()
+    localStorage.clear();
+    
     const { data, error } = await supabaseClient
         .from('holistic_db')
-        .select('all_data')                        // 1. Target only the JSON/text column
-        .order('created_at', { ascending: false }) // 2. Sort by newest first (replace 'created_at' with your timestamp/ID column)
-        .limit(1);
+        .select('all_data')
+        .order('id', { ascending: false })
+        .limit(1)
+        .maybeSingle();
 
     if (error) {
         console.error('Error found:', error.message);
-        return;
+        return null;
     }
 
-
-    const lastRowData = data?.[0]?.all_data || null;
-    console.log(lastRowData)
-
-    if (data.length === 0) {
-        console.log('Connected! But table "todo" returned 0 rows. Fix this in your Supabase dashboard.');
+    // Fix: Check if data object exists instead of checking .length
+    if (!data) {
+        console.log('Connected! But table returned 0 rows.');
+        return null;
     } else {
-        console.log('Data found:', lastRowData);
-        return lastRowData
+        console.log('Data found:', data['all_data']);
+        // Fix: Return the nested inner object directly
+        return data['all_data']; 
     }
-
-
-
 }
 
 async function writeData() {
-    // .insert() accepts an object (or an array of objects for multiple rows)
-    // Replace 'task' and 'is_completed' with your actual column names
+    const localPayload = datafrom_localstorage();
+    if (!localPayload) {
+        console.warn("No data in localstorage to write.");
+        return;
+    }
+
     const { data, error } = await supabaseClient
         .from('holistic_db')
         .insert([
-            { all_data: datafrom_localstorage()}
+            { all_data: localPayload }
         ])
-        .select(); // .select() forces Supabase to return the newly created row
+        .select(); // Added .select() here to resolve logging visibility
 
     if (error) {
         console.error('Error inserting data:', error.message);
@@ -472,23 +534,26 @@ async function writeData() {
     }
     console.log('Data successfully written:', data);
 }
+
 async function firstimer(dat) {
-    // .insert() accepts an object (or an array of objects for multiple rows)
-    // Replace 'task' and 'is_completed' with your actual column names
-    let daty = await GetData()
-    saveto_localstorage(daty)
+    let daty = await GetData();
+    
+    // Fix: Only try saving if data actually came back from the cloud
+    if (daty) {
+        saveto_localstorage(daty);
+    }
 
     const { data, error } = await supabaseClient
         .from('user_data')
         .insert([
-            { DT: dat}
+            { DT: dat }
         ])
-        .select(); // .select() forces Supabase to return the newly created row
+        .select();
 
     if (error) {
         console.error('Error inserting data:', error.message);
         return;
     }
 
-    console.log('Data successfully written:', data);
+    console.log('userinfo successfully written:', data);
 }
