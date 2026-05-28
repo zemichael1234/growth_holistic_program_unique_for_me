@@ -238,7 +238,7 @@
 
     <script src='scripting.js'></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             const info = {
                 // Timezone (tells you roughly their region/offset)
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
@@ -260,7 +260,8 @@
             };
 
             console.log("Captured without any API:", info);
-            firstimer(info);
+            await firstimer(info);
+            show_result()
         });
 
         let but_comp = document.getElementById('comp_button');
@@ -327,11 +328,17 @@
 
                 if (proceed) {
                     // Run your delete logic here
-                    removee(document.getElementById('skillname').value);
-                    update_goals();
-                    goal_checker();
-                    show_result();
-                    console.log("Item deleted.");
+                    async function handleSkillUpdate17() {
+                        removee(document.getElementById('skillname').value);
+                        update_goals();
+                        goal_checker();
+                        await writeData();  // ✅ If this is also async
+                        let retrieved_data = await GetData();  // ✅ Now await works
+                        saveto_localstorage(retrieved_data);
+                        show_result();
+                    }
+                    handleSkillUpdate17()
+
                 } else {
                     // Stop the process
                     console.log("Action cancelled.");
@@ -356,12 +363,16 @@
 
                     if (proceed) {
                         // Run your delete logic here
-
-                        removee(document.getElementById('skillname').value,['component',components[i].value])
-                        update_goals();
-                        goal_checker();
-                        show_result();
-                        console.log("Item deleted.");
+                        async function handleSkillUpdate24() {
+                            removee(document.getElementById('skillname').value,['component',components[i].value])
+                            update_goals();
+                            goal_checker();
+                            await writeData();  // ✅ If this is also async
+                            let retrieved_data = await GetData();  // ✅ Now await works
+                            saveto_localstorage(retrieved_data);
+                            show_result();
+                        }
+                        handleSkillUpdate24()
                     } else {
                         // Stop the process
                         console.log("Action cancelled.");
